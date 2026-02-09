@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Para ti ❤️</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .card {
+      position: relative;
+      z-index: 2;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 30px 20px;
+      width: 90%;
+      max-width: 360px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+    }
+
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+    }
+
+    #mensajeNo {
+      font-size: 1rem;
+      margin-top: 10px;
+      height: 24px;
+    }
+
+    button {
+      padding: 12px 20px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 25px;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .btn-si {
+      background: white;
+      color: #ff4d6d;
+    }
+
+    .botones {
+      position: relative;
+      height: 160px;
+      margin-top: 10px;
+    }
+
+    #noBtn {
+      position: absolute;
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+      left: 180px;
+      top: 90px;
+    }
+
+    /* 📸 Foto final */
+    .foto-nosotros {
+      width: 100%;
+      border-radius: 15px;
+      margin-top: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+      animation: aparecer 0.8s ease-out;
+    }
+
+    @keyframes aparecer {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="fireworks"></canvas>
+
+<div class="card" id="card">
+  <h1>Hey, amor ❤️</h1>
+  <p>
+    Hay personas que hacen que todo se sienta un poquito mejor.
+    Tú haces eso conmigo.
+  </p>
+  <button class="btn-si" onclick="siguiente()">Siguiente</button>
+</div>
+
+<script>
+  let intentosNo = 0;
+  let escalaSi = 1;
+
+  const frases = [
+    "Muy rápido 😏",
+    "Casi…",
+    "Ni lo intentes 😌"
+  ];
+
+  function siguiente() {
+    const card = document.getElementById("card");
+    card.innerHTML = `
+      <h1>Tengo algo importante que preguntarte… 💖</h1>
+      <p>¿Quieres ser mi San Valentín?</p>
+
+      <div class="botones" id="contenedorBotones">
+        <button class="btn-si" id="siBtn" onclick="acepta()">¡Sí! 💘</button>
+        <button id="noBtn">No 🙃</button>
+      </div>
+
+      <div id="mensajeNo"></div>
+    `;
+
+    const noBtn = document.getElementById("noBtn");
+    noBtn.addEventListener("touchstart", moverBoton);
+    noBtn.addEventListener("click", moverBoton);
+  }
+
+  function moverBoton() {
+    const noBtn = document.getElementById("noBtn");
+    const siBtn = document.getElementById("siBtn");
+    const contenedor = document.getElementById("contenedorBotones");
+    const mensaje = document.getElementById("mensajeNo");
+
+    intentosNo++;
+
+    // Agrandar botón SÍ
+    escalaSi += 0.12;
+    siBtn.style.transform = `scale(${escalaSi})`;
+
+    if (intentosNo <= 3) {
+      const maxX = contenedor.offsetWidth - noBtn.offsetWidth;
+      const maxY = contenedor.offsetHeight - noBtn.offsetHeight;
+
+      noBtn.style.left = `${Math.random() * maxX}px`;
+      noBtn.style.top = `${Math.random() * maxY}px`;
+
+      mensaje.textContent = frases[intentosNo - 1];
+    }
+
+    if (intentosNo === 3) {
+      setTimeout(() => {
+        noBtn.style.display = "none";
+        mensaje.textContent = "Creo que ya sabes la respuesta 😌";
+      }, 200);
+    }
+  }
+
+  function acepta() {
+    lanzarFuegos();
+    navigator.vibrate?.(200);
+
+    const card = document.getElementById("card");
+    card.innerHTML = `
+      <h1>💞 ¡Sabía que dirías que sí! 💞</h1>
+      <p>
+        Contigo todo es mejor.<br>
+        Gracias por ser mi San Valentín ❤️
+      </p>
+
+      <img src="nosotros.jpg" alt="Nosotros" class="foto-nosotros">
+
+      <p style="margin-top: 15px; font-size: 0.95rem;">
+        Este es solo el comienzo ✨
+      </p>
+    `;
+  }
+
+  /* 🎆 FUEGOS ARTIFICIALES */
+  const canvas = document.getElementById("fireworks");
+  const ctx = canvas.getContext("2d");
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+
+  function lanzarFuegos() {
+    for (let i = 0; i < 80; i++) {
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height / 2;
+      for (let j = 0; j < 20; j++) {
+        ctx.beginPath();
+        ctx.arc(
+          x + Math.random() * 80 - 40,
+          y + Math.random() * 80 - 40,
+          2,
+          0,
+          Math.PI * 2
+        );
+        ctx.fillStyle = `hsl(${Math.random() * 360},100%,70%)`;
+        ctx.fill();
+      }
+    }
+  }
+
+  window.onresize = () => {
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+  };
+</script>
+
+</body>
+</html>
