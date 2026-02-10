@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Para ti ❤️</title>
+  <title>Mi amorcito UwU</title>
 
   <style>
     body {
@@ -114,10 +114,10 @@
 <canvas id="fireworks"></canvas>
 
 <div class="card" id="card">
-  <h1>Hey, amor ❤️</h1>
+  <h1>Hola mi amorcito UwU ❤️</h1>
   <p>
-    Hay personas que hacen que todo se sienta un poquito mejor.
-    Tú haces eso conmigo.
+    Usted es la niñita más hermosa y preciosa del mundo mi bebecita UwU
+    La amo muchísimo ❤️
   </p>
   <button class="btn-si" onclick="siguiente()">Siguiente</button>
 </div>
@@ -127,16 +127,16 @@
   let escalaSi = 1;
 
   const frases = [
-    "Muy rápido 😏",
-    "Casi…",
-    "Ni lo intentes 😌"
+    "Coismois...",
+    "Torolois...",
+    "Bibop..."
   ];
 
   function siguiente() {
     const card = document.getElementById("card");
     card.innerHTML = `
-      <h1>Tengo algo importante que preguntarte… 💖</h1>
-      <p>¿Quieres ser mi San Valentín?</p>
+      <h1>Quiero preguntarle algo mi amorcito... 💖</h1>
+      <p>¿Quiere ser mi San Valentín?</p>
 
       <div class="botones" id="contenedorBotones">
         <button class="btn-si" id="siBtn" onclick="acepta()">¡Sí! 💘</button>
@@ -173,10 +173,10 @@
       mensaje.textContent = frases[intentosNo - 1];
     }
 
-    if (intentosNo === 3) {
+    if (intentosNo === 4) {
       setTimeout(() => {
         noBtn.style.display = "none";
-        mensaje.textContent = "Creo que ya sabes la respuesta 😌";
+        mensaje.textContent = "Niñita 🤨";
       }, 200);
     }
   }
@@ -187,16 +187,16 @@
 
     const card = document.getElementById("card");
     card.innerHTML = `
-      <h1>💞 ¡Sabía que dirías que sí! 💞</h1>
+      <h1>💞 ¡Gracias mi bebecita hermosa! 💞</h1>
       <p>
-        Contigo todo es mejor.<br>
+        La amo con todo el corazón UwU<br>
         Gracias por ser mi San Valentín ❤️
       </p>
 
-      <img src="https://xt2447.github.io/Sorpresa/Nosotros.jpg" alt="Nosotros" class="foto-nosotros">
+      <img src="nosotros.jpg" alt="Nosotros" class="foto-nosotros">
 
       <p style="margin-top: 15px; font-size: 0.95rem;">
-        Este es solo el comienzo ✨
+        Juntitos para siempre mi amorcito UwU 💞
       </p>
     `;
   }
