@@ -1,142 +1,151 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Un mes más contigo 💖</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Un mes más 💖</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #ff758c, #ff7eb3);
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      text-align: center;
-      overflow: hidden;
-    }
+<style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #0f0f1a;
+    color: #fff;
+    overflow: hidden;
+  }
 
-    canvas {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-    }
+  .pantalla {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 30px;
+    transition: opacity 0.8s ease;
+  }
 
-    .card {
-      position: relative;
-      z-index: 2;
-      background: rgba(255,255,255,0.15);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      padding: 30px 20px;
-      width: 90%;
-      max-width: 360px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-      animation: aparecer 0.6s ease;
-    }
+  .oculta {
+    opacity: 0;
+    pointer-events: none;
+  }
 
-    h1 {
-      font-size: 1.8rem;
-      margin-bottom: 15px;
-    }
+  h1 {
+    font-weight: 500;
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
 
-    p {
-      font-size: 1.1rem;
-      margin-bottom: 20px;
-    }
+  p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 400px;
+  }
 
-    button {
-      padding: 12px 20px;
-      font-size: 1rem;
-      font-weight: bold;
-      border-radius: 25px;
-      border: none;
-      cursor: pointer;
-      background: white;
-      color: #ff4d6d;
-    }
+  .boton {
+    margin-top: 30px;
+    padding: 10px 18px;
+    border: 1px solid #fff;
+    border-radius: 20px;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+  }
 
-    .foto {
-      width: 100%;
-      border-radius: 15px;
-      margin-top: 15px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.35);
-      animation: aparecer 0.8s ease;
-    }
+  /* ✨ segunda pantalla estilo carta */
+  .carta {
+    max-width: 380px;
+    animation: aparecer 1s ease;
+  }
 
-    @keyframes aparecer {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
+  .foto {
+    width: 100%;
+    border-radius: 12px;
+    margin-top: 20px;
+  }
+
+  @keyframes aparecer {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
     }
-  </style>
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ✨ partículas suaves */
+  .estrella {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    opacity: 0.5;
+    animation: flotar 10s linear infinite;
+  }
+
+  @keyframes flotar {
+    from { transform: translateY(100vh); }
+    to { transform: translateY(-10vh); }
+  }
+
+</style>
 </head>
 
 <body>
 
-<canvas id="fireworks"></canvas>
+<!-- 🌌 fondo animado -->
+<div id="fondo"></div>
 
-<div class="card" id="card">
-  <h1>Hola mi amorcito UwU ❤️</h1>
-  <p>
-    Hoy cumplimos un mes más juntos 💖<br>
-    Y solo quiero decirle algo muy importante...
-  </p>
-  <button onclick="mostrarSorpresa()">Siguiente ✨</button>
+<!-- PANTALLA 1 -->
+<div class="pantalla" id="pantalla1">
+  <div>
+    <h1>Hey… ❤️</h1>
+    <p>
+      Hoy no es cualquier día ✨<br><br>
+      Es otro mes más contigo…  
+      y eso ya lo hace especial 💖
+    </p>
+    <button class="boton" onclick="cambiar()">tocar ✨</button>
+  </div>
+</div>
+
+<!-- PANTALLA 2 -->
+<div class="pantalla oculta" id="pantalla2">
+  <div class="carta">
+    <h1>💞 Un mes más 💞</h1>
+    <p>
+      Gracias por cada momento, cada risa  
+      y por estar conmigo ❤️<br><br>
+      No necesito mucho más…  
+      solo seguir compartiendo tiempo contigo ✨
+    </p>
+
+    <img src="https://xt2447.github.io/Sorpresa/Nosotros.jpg" class="foto">
+
+    <p style="margin-top:15px; font-size:0.9rem;">
+      💖 me haces muy feliz 💖
+    </p>
+  </div>
 </div>
 
 <script>
-  function mostrarSorpresa() {
-    lanzarFuegos();
-    navigator.vibrate?.(200);
-
-    const card = document.getElementById("card");
-    card.innerHTML = `
-      <h1>💞 Feliz mes mi amorcito 💞</h1>
-      <p>
-        Gracias por estar conmigo, por su amor y por cada momento juntos ❤️<br>
-        La amo muchísimo mi bebecita hermosa UwU 💖
-      </p>
-
-      <img src="https://xt2447.github.io/Sorpresa/Nosotros.jpg" class="foto">
-
-      <p style="margin-top: 15px; font-size: 0.95rem;">
-        Por muchos meses más a su lado 💕
-      </p>
-    `;
+  function cambiar() {
+    document.getElementById("pantalla1").classList.add("oculta");
+    document.getElementById("pantalla2").classList.remove("oculta");
   }
 
-  /* FUEGOS ARTIFICIALES */
-  const canvas = document.getElementById("fireworks");
-  const ctx = canvas.getContext("2d");
+  /* 🌌 generar estrellitas */
+  const fondo = document.getElementById("fondo");
 
-  function resize() {
-    canvas.width = innerWidth;
-    canvas.height = innerHeight;
-  }
-  resize();
-  window.onresize = resize;
-
-  function lanzarFuegos() {
-    for (let i = 0; i < 80; i++) {
-      const x = Math.random() * canvas.width;
-      const y = Math.random() * canvas.height / 2;
-
-      for (let j = 0; j < 20; j++) {
-        ctx.beginPath();
-        ctx.arc(
-          x + Math.random() * 80 - 40,
-          y + Math.random() * 80 - 40,
-          2,
-          0,
-          Math.PI * 2
-        );
-        ctx.fillStyle = `hsl(${Math.random() * 360},100%,70%)`;
-        ctx.fill();
-      }
-    }
+  for (let i = 0; i < 60; i++) {
+    const estrella = document.createElement("div");
+    estrella.className = "estrella";
+    estrella.style.left = Math.random() * 100 + "vw";
+    estrella.style.animationDuration = (5 + Math.random() * 10) + "s";
+    estrella.style.opacity = Math.random();
+    fondo.appendChild(estrella);
   }
 </script>
 
