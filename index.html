@@ -2,7 +2,9 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Carta para ti ❤️</title>
+
 <style>
 body {
     margin: 0;
@@ -12,14 +14,17 @@ body {
     justify-content: center;
     align-items: center;
     font-family: Arial, sans-serif;
+    overflow: hidden;
 }
 
 /* Texto guía */
 .hint {
     position: absolute;
-    top: 20%;
+    top: 15%;
+    width: 100%;
+    text-align: center;
     color: white;
-    font-size: 18px;
+    font-size: 20px;
     animation: blink 1.5s infinite;
 }
 
@@ -31,8 +36,10 @@ body {
 /* Sobre */
 .envelope {
     position: relative;
-    width: 320px;
-    height: 220px;
+    width: 80vw;
+    max-width: 320px;
+    height: 55vw;
+    max-height: 220px;
     background: #ff6b81;
     border-radius: 10px;
     cursor: pointer;
@@ -68,9 +75,13 @@ body {
     box-sizing: border-box;
     text-align: center;
     transform: translateY(100%);
-    transition: transform 1s ease;
+    transition: transform 1s ease, opacity 0.5s ease;
     border-radius: 10px;
     z-index: 1;
+
+    opacity: 0; /* 🔥 SOLUCIÓN AL BUG */
+    font-size: 14px;
+    overflow: hidden;
 }
 
 .envelope.open .flap {
@@ -79,6 +90,7 @@ body {
 
 .envelope.open .letter {
     transform: translateY(0);
+    opacity: 1;
 }
 
 h2 {
@@ -88,15 +100,15 @@ h2 {
 
 p {
     color: #333;
-    font-size: 16px;
     min-height: 120px;
 }
 
-/* Cursor parpadeante */
+/* Cursor */
 .cursor {
     display: inline-block;
     width: 2px;
     background: #333;
+    margin-left: 3px;
     animation: blinkCursor 1s infinite;
 }
 
@@ -106,6 +118,7 @@ p {
 }
 </style>
 </head>
+
 <body>
 
 <div class="hint" id="hint">Toca el sobre 💌</div>
@@ -128,22 +141,27 @@ Gracias por cada momento contigo ✨
 Te amo muchísimo 💕`;
 
 let i = 0;
+let abierta = false;
 
 function escribirTexto() {
     if (i < mensaje.length) {
-        document.getElementById("texto").innerHTML += mensaje.charAt(i) === "\n" ? "<br>" : mensaje.charAt(i);
+        const texto = document.getElementById("texto");
+        texto.innerHTML += mensaje.charAt(i) === "\n" ? "<br>" : mensaje.charAt(i);
         i++;
         setTimeout(escribirTexto, 40);
     }
 }
 
 function abrirCarta() {
+    if (abierta) return;
+    abierta = true;
+
     const sobre = document.querySelector(".envelope");
     sobre.classList.add("open");
 
     document.getElementById("hint").style.display = "none";
 
-    setTimeout(escribirTexto, 800); // espera a que se abra la carta
+    setTimeout(escribirTexto, 800);
 }
 </script>
 
