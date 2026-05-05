@@ -84,7 +84,7 @@ body {
     overflow-y: auto;
 }
 
-/* Scroll bonito */
+/* Scroll */
 .letter::-webkit-scrollbar {
     width: 5px;
 }
@@ -153,6 +153,21 @@ p {
         opacity: 0;
     }
 }
+
+/* FOTO FINAL */
+.foto {
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 15px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 1s ease;
+}
+
+.foto.mostrar {
+    opacity: 1;
+    transform: translateY(0);
+}
 </style>
 </head>
 
@@ -166,6 +181,9 @@ p {
     <div class="letter">
         <h2>Para ti ❤️</h2>
         <p id="texto"></p><span class="cursor"></span>
+
+        <!-- FOTO -->
+        <img src="foto.jpg" alt="Nuestra foto" class="foto" id="fotoFinal">
     </div>
 </div>
 
@@ -196,9 +214,7 @@ function crearCorazon() {
 
     document.body.appendChild(heart);
 
-    setTimeout(() => {
-        heart.remove();
-    }, 4000);
+    setTimeout(() => heart.remove(), 4000);
 }
 
 function escribirTexto() {
@@ -207,11 +223,16 @@ function escribirTexto() {
         texto.innerHTML += mensaje.charAt(i) === "\n" ? "<br>" : mensaje.charAt(i);
         i++;
 
-        crearCorazon(); // 💖 crea corazones mientras escribe
+        crearCorazon();
 
         setTimeout(escribirTexto, 35);
     } else {
-        corazonesActivos = false; // se detienen al terminar
+        corazonesActivos = false;
+
+        // 📸 Mostrar foto al final
+        setTimeout(() => {
+            document.getElementById("fotoFinal").classList.add("mostrar");
+        }, 500);
     }
 }
 
@@ -219,9 +240,7 @@ function abrirCarta() {
     if (abierta) return;
     abierta = true;
 
-    const sobre = document.querySelector(".envelope");
-    sobre.classList.add("open");
-
+    document.querySelector(".envelope").classList.add("open");
     document.getElementById("hint").style.display = "none";
 
     corazonesActivos = true;
