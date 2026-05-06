@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Feliz Cumpleaños ❤️</title>
+<title>Feliz Cumpleaños mi Amor ❤️</title>
 
 <style>
 body {
@@ -173,19 +173,23 @@ p {
 
 <body>
 
-<div class="hint" id="hint">Toque el sobre mi amorcito UwU 💌</div>
+<div class="hint" id="hint">Toca el sobre 💌</div>
 
 <div class="envelope" onclick="abrirCarta()">
     <div class="flap"></div>
 
     <div class="letter">
-        <h2>Para mi amorcito ❤️</h2>
+        <h2>Para mi amorcito UwU ❤️</h2>
         <p id="texto"></p><span class="cursor"></span>
 
-        <!-- FOTO -->
-        <img src="foto.jpg" alt="foto" class="foto" id="fotoFinal">
+        <img src="foto.jpg" alt="Nuestra foto" class="foto" id="fotoFinal">
     </div>
 </div>
+
+<!-- 🔊 AUDIO -->
+<audio id="sonido">
+    <source src="abrir.mp3" type="audio/mpeg">
+</audio>
 
 <script>
 const mensaje = `Feliz cumpleaños mi amorcito 💖
@@ -229,7 +233,6 @@ function escribirTexto() {
     } else {
         corazonesActivos = false;
 
-        // 📸 Mostrar foto al final
         setTimeout(() => {
             document.getElementById("fotoFinal").classList.add("mostrar");
         }, 500);
@@ -242,6 +245,11 @@ function abrirCarta() {
 
     document.querySelector(".envelope").classList.add("open");
     document.getElementById("hint").style.display = "none";
+
+    // 🔊 Reproducir sonido
+    const audio = document.getElementById("sonido");
+    audio.currentTime = 0;
+    audio.play().catch(() => {});
 
     corazonesActivos = true;
 
