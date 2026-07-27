@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emmanuel & Melany — 7 años</title>
+
+<!--
+  ═══════════════════════════════════════════════════════════════
+  CÓMO EDITAR ESTA PÁGINA (no necesitas tocar el diseño, solo esto):
+
+  1. Baja hasta la etiqueta <script> al final del archivo.
+  2. Ahí encontrarás un bloque que dice "const CONTENIDO = { ... }".
+  3. Cambia el texto del mensaje, la fecha, o los nombres ahí mismo.
+  4. Para las fotos: coloca tus imágenes en la MISMA carpeta que este
+     archivo .html, y nómbralas foto1.jpg ... foto7.jpg (o cambia los
+     nombres dentro de "fotos: [...]" para que coincidan con tus
+     archivos, ej. "recuerdo1.png").
+  5. Cada foto tiene su propio "mensaje": el texto que aparece al
+     tocar esa foto. Puedes dejarlo como un mensaje por año, o poner
+     lo que quieras en cada uno.
+  6. Si no pones una foto, ese espacio mostrará un marco vacío
+     dorado — no rompe nada, solo agrégala cuando quieras.
+  ═══════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,500&family=Lora:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --wine-dark:#1a0710;
+    --wine:#2b0c1a;
+    --wine-light:#43172a;
+    --gold:#c9a44c;
+    --gold-light:#eaceb0;
+    --rose:#e8a0a8;
+    --rose-deep:#b85c68;
+    --cream:#f6ece1;
+    --cream-dim:#d9c6b8;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--wine-dark);
+    color:var(--cream);
+    font-family:'Lora', serif;
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  /* ---------- pétalos cayendo ---------- */
+  .petalos{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:5;
+    overflow:hidden;
+  }
+  .petalo{
+    position:absolute;
+    top:-5vh;
+    width:14px;
+    height:18px;
+    background:linear-gradient(135deg, var(--rose), var(--rose-deep));
+    border-radius:60% 10% 60% 10%;
+    opacity:.55;
+    animation:caer linear infinite;
+  }
+  @keyframes caer{
+    0%{ transform:translateY(0) translateX(0) rotate(0deg); }
+    100%{ transform:translateY(110vh) translateX(var(--drift,40px)) rotate(340deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .petalo{ display:none; }
+    html{ scroll-behavior:auto; }
+    *{ animation-duration:.001ms !important; transition-duration:.001ms !important; }
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    min-height:100svh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    position:relative;
+    padding:6vh 6vw;
+    background:
+      radial-gradient(ellipse at 50% 20%, var(--wine-light) 0%, transparent 60%),
+      linear-gradient(180deg, var(--wine-dark) 0%, var(--wine) 55%, var(--wine-dark) 100%);
+  }
+
+  .numeral{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    font-family:'Playfair Display', serif;
+    font-size:clamp(14rem, 42vw, 32rem);
+    font-weight:700;
+    color:var(--gold);
+    opacity:.07;
+    letter-spacing:.02em;
+    user-select:none;
+    z-index:0;
+  }
+
+  .hero-content{ position:relative; z-index:1; }
+
+  .eyebrow{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    letter-spacing:.35em;
+    text-transform:uppercase;
+    font-size:clamp(.75rem, 1.4vw, .95rem);
+    color:var(--gold-light);
+    opacity:.85;
+    margin-bottom:1.6rem;
+  }
+
+  .nombres{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:clamp(2.4rem, 7vw, 5rem);
+    line-height:1.1;
+    color:var(--cream);
+  }
+
+  .nombres .amp{
+    display:block;
+    font-style:italic;
+    color:var(--gold);
+    font-size:.55em;
+    margin:.15em 0;
+  }
+
+  .subrayado{
+    width:70px;
+    height:1px;
+    background:linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin:2rem auto;
+  }
+
+  .anios{
+    font-family:'Cormorant Garamond', serif;
+    font-size:clamp(1.1rem, 2.4vw, 1.5rem);
+    letter-spacing:.08em;
+    color:var(--cream-dim);
+  }
+
+  .fecha{
+    margin-top:.6rem;
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:1rem;
+    color:var(--rose);
+    opacity:.9;
+  }
+
+  .scroll-cue{
+    position:absolute;
+    bottom:2.5rem;
+    left:50%;
+    transform:translateX(-50%);
+    width:1px;
+    height:50px;
+    background:linear-gradient(180deg, var(--gold), transparent);
+  }
+
+  /* ---------- secciones generales ---------- */
+  section.bloque{
+    padding:min(14vh,7rem) 6vw;
+    position:relative;
+    z-index:2;
+  }
+
+  .revelar{
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity 1s ease, transform 1s ease;
+  }
+  .revelar.visible{ opacity:1; transform:translateY(0); }
+
+  .titulo-seccion{
+    font-family:'Cormorant Garamond', serif;
+    text-transform:uppercase;
+    letter-spacing:.3em;
+    font-size:.85rem;
+    color:var(--gold);
+    text-align:center;
+    margin-bottom:2.5rem;
+    opacity:.8;
+  }
+
+  /* ---------- carta / mensaje ---------- */
+  .carta-envoltura{
+    max-width:680px;
+    margin:0 auto;
+    background:linear-gradient(160deg, var(--wine-light), var(--wine));
+    border:1px solid rgba(201,164,76,.35);
+    border-radius:4px;
+    padding:clamp(2.2rem,6vw,4rem);
+    position:relative;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,.55);
+  }
+
+  .comilla{
+    font-family:'Playfair Display', serif;
+    font-size:5rem;
+    color:var(--gold);
+    opacity:.5;
+    line-height:1;
+    position:absolute;
+    top:.5rem;
+    left:1.2rem;
+  }
+
+  .mensaje p{
+    font-family:'Lora', serif;
+    font-style:italic;
+    font-size:clamp(1.05rem, 2vw, 1.3rem);
+    line-height:1.9;
+    color:var(--cream);
+    margin-bottom:1.3rem;
+  }
+
+  .firma{
+    margin-top:2rem;
+    text-align:right;
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.15rem;
+    color:var(--gold-light);
+  }
+
+  /* ---------- galería ---------- */
+  .galeria{
+    max-width:1000px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
+    gap:clamp(1rem, 2.6vw, 1.8rem);
+  }
+
+  @media (max-width:480px){
+    .galeria{ grid-template-columns:1fr 1fr; }
+  }
+
+  figure.marco{
+    background:var(--wine-light);
+    border:1px solid rgba(201,164,76,.4);
+    padding:.6rem .6rem 1rem;
+    box-shadow:0 20px 40px -18px rgba(0,0,0,.6);
+    transition:transform .4s ease, box-shadow .4s ease;
+    position:relative;
+    cursor:pointer;
+  }
+  figure.marco:nth-child(odd){ transform:rotate(-1.4deg); }
+  figure.marco:nth-child(even){ transform:rotate(1.2deg); }
+  figure.marco:hover, figure.marco:focus-visible{
+    transform:scale(1.04) rotate(0deg);
+    box-shadow:0 26px 50px -16px rgba(0,0,0,.65);
+    outline:none;
+  }
+  figure.marco:focus-visible{ border-color:var(--gold); }
+
+  .anio-etiqueta{
+    position:absolute;
+    top:-.6rem;
+    left:-.6rem;
+    width:2.1rem;
+    height:2.1rem;
+    border-radius:50%;
+    background:var(--wine-dark);
+    border:1px solid var(--gold);
+    color:var(--gold-light);
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:.9rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:2;
+  }
+
+  figure.marco img{
+    width:100%;
+    aspect-ratio:4/5;
+    object-fit:cover;
+    display:block;
+  }
+
+  .toca-pista{
+    text-align:center;
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:.78rem;
+    color:var(--gold);
+    opacity:.75;
+    margin-top:.4rem;
+  }
+
+  .foto-vacia img{ display:none; }
+  .foto-placeholder{
+    display:none;
+    width:100%;
+    aspect-ratio:4/5;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    gap:.6rem;
+    background:
+      repeating-linear-gradient(45deg, rgba(201,164,76,.06) 0 10px, transparent 10px 20px);
+    border:1px dashed rgba(201,164,76,.5);
+    color:var(--gold-light);
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:.95rem;
+    text-align:center;
+    padding:1rem;
+  }
+  .foto-vacia .foto-placeholder{ display:flex; }
+
+  figcaption{
+    margin-top:.6rem;
+    text-align:center;
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:.95rem;
+    color:var(--cream-dim);
+  }
+
+  /* ---------- cierre ---------- */
+  .cierre{
+    text-align:center;
+    padding-bottom:10vh;
+  }
+  .cierre .gracias{
+    font-family:'Playfair Display', serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:clamp(1.8rem, 5vw, 3rem);
+    color:var(--gold-light);
+    max-width:640px;
+    margin:0 auto 1.2rem;
+    line-height:1.3;
+  }
+  .cierre .con-amor{
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.1rem;
+    color:var(--rose);
+  }
+  .divisor-rosa{
+    width:8px; height:8px;
+    background:var(--rose);
+    border-radius:50% 0 50% 50%;
+    transform:rotate(45deg);
+    margin:2.5rem auto;
+  }
+
+  footer{
+    text-align:center;
+    padding:2rem;
+    font-family:'Cormorant Garamond', serif;
+    font-size:.8rem;
+    letter-spacing:.15em;
+    color:rgba(217,198,184,.4);
+  }
+
+  a, button{ font-family:inherit; }
+
+  /* ---------- modal de mensaje por foto ---------- */
+  .modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(15,4,9,.88);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:6vw;
+    z-index:60;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .4s ease;
+  }
+  .modal-overlay.abierto{ opacity:1; pointer-events:auto; }
+
+  .modal-caja{
+    max-width:520px;
+    width:100%;
+    max-height:85vh;
+    overflow-y:auto;
+    background:linear-gradient(160deg, var(--wine-light), var(--wine));
+    border:1px solid rgba(201,164,76,.45);
+    border-radius:6px;
+    padding:clamp(1.8rem, 6vw, 3rem);
+    position:relative;
+    text-align:center;
+    transform:translateY(24px) scale(.97);
+    transition:transform .4s ease;
+    box-shadow:0 40px 80px -20px rgba(0,0,0,.6);
+  }
+  .modal-overlay.abierto .modal-caja{ transform:translateY(0) scale(1); }
+
+  .modal-cerrar{
+    position:absolute;
+    top:.6rem;
+    right:.9rem;
+    background:none;
+    border:none;
+    color:var(--gold-light);
+    font-size:1.9rem;
+    line-height:1;
+    cursor:pointer;
+    padding:.4rem;
+  }
+  .modal-cerrar:hover, .modal-cerrar:focus-visible{ color:var(--rose); }
+
+  .modal-anio{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    font-size:.85rem;
+    color:var(--gold);
+    margin-bottom:1.2rem;
+  }
+
+  .modal-imagen{
+    width:100%;
+    max-height:45vh;
+    object-fit:cover;
+    border-radius:4px;
+    margin-bottom:1.4rem;
+    display:block;
+  }
+  .modal-imagen.oculta{ display:none; }
+
+  .modal-mensaje{
+    font-family:'Lora', serif;
+    font-style:italic;
+    font-size:clamp(1rem, 2.4vw, 1.2rem);
+    line-height:1.85;
+    color:var(--cream);
+  }
+</style>
+</head>
+<body>
+
+<div class="petalos" id="petalos"></div>
+
+<section class="hero">
+  <span class="numeral">VII</span>
+  <div class="hero-content">
+    <p class="eyebrow" id="eyebrow-texto">Siete años de nosotros</p>
+    <h1 class="nombres">
+      <span id="nombre-el">Emmanuel</span>
+      <span class="amp">&amp;</span>
+      <span id="nombre-ella">Melany</span>
+    </h1>
+    <div class="subrayado"></div>
+    <p class="anios" id="anios-texto">7º aniversario</p>
+    <p class="fecha" id="fecha-texto"></p>
+  </div>
+  <div class="scroll-cue"></div>
+</section>
+
+<section class="bloque revelar">
+  <p class="titulo-seccion">Para ti</p>
+  <div class="carta-envoltura">
+    <span class="comilla">&ldquo;</span>
+    <div class="mensaje" id="mensaje-contenedor"></div>
+    <p class="firma" id="firma-texto"></p>
+  </div>
+</section>
+
+<section class="bloque revelar">
+  <p class="titulo-seccion">Nuestros recuerdos</p>
+  <div class="galeria" id="galeria-contenedor"></div>
+</section>
+
+<section class="bloque cierre revelar">
+  <p class="gracias" id="gracias-texto"></p>
+  <div class="divisor-rosa"></div>
+  <p class="con-amor" id="con-amor-texto"></p>
+</section>
+
+<footer id="footer-texto"></footer>
+
+<div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-anio">
+  <div class="modal-caja">
+    <button class="modal-cerrar" id="modal-cerrar" aria-label="Cerrar">&times;</button>
+    <p class="modal-anio" id="modal-anio"></p>
+    <img class="modal-imagen" id="modal-imagen" alt="">
+    <p class="modal-mensaje" id="modal-mensaje"></p>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   EDITA SOLO AQUÍ ABAJO — el diseño de arriba no necesitas tocarlo.
+   ═══════════════════════════════════════════════════════════════ */
+const CONTENIDO = {
+  nombreEl: "Emmanuel",
+  nombreElla: "Melany",
+  numeroAniversario: "7",
+  fecha: "27 de julio de 2026",
+
+  // Usa doble salto de línea para separar párrafos.
+  mensaje: `Hace siete años el destino puso nuestros caminos uno junto al otro, y desde entonces cada día ha sido una razón más para seguir eligiéndote.
+
+Gracias por reír conmigo en los días buenos y por sostenerme en los grises. Gracias por construir, poco a poco y sin prisa, la vida más bonita que he conocido junto a ti.
+
+Aquí sigo, aquí seguimos. Quiero seguir sumando años, veranos, tonterías y silencios cómodos a tu lado. Te amo, Melany.`,
+
+  firma: "— Emmanuel",
+
+  // Pon aquí los nombres de tus archivos de foto (misma carpeta que este .html).
+  // Si un archivo no existe, se verá un marco vacío dorado — sin problema.
+  // "mensaje" es el texto que aparece al TOCAR esa foto.
+  fotos: [
+    { archivo: "foto1.jpg", anio: "1", mensaje: "El año en que todo comenzó. Aún recuerdo lo nervioso que estaba la primera vez que te invité a salir." },
+    { archivo: "foto2.jpg", anio: "2", mensaje: "Aprendimos a construir juntos, entre risas y también algunos tropiezos que nos hicieron más fuertes." },
+    { archivo: "foto3.jpg", anio: "3", mensaje: "Ese año descubrimos que podíamos apoyarnos en lo difícil, no solo celebrar lo fácil." },
+    { archivo: "foto4.jpg", anio: "4", mensaje: "Nuevos planes, nuevas metas, y tú siempre ahí, siendo mi lugar seguro." },
+    { archivo: "foto5.jpg", anio: "5", mensaje: "Cinco años y seguía sintiendo mariposas cada vez que llegabas. Eso no ha cambiado." },
+    { archivo: "foto6.jpg", anio: "6", mensaje: "Aprendimos el valor de la paciencia y de elegirnos incluso en los días complicados." },
+    { archivo: "foto7.jpg", anio: "7", mensaje: "Siete años después, sigo eligiéndote cada mañana. Gracias por tanto, Melany." }
+  ],
+
+  mensajeCierre: "Gracias por siete años a tu lado, mi amor.",
+  footer: "Emmanuel & Melany · desde hace 7 años"
+};
+/* ═══════════════════════════════════════════════════════════════
+   No es necesario editar debajo de esta línea.
+   ═══════════════════════════════════════════════════════════════ */
+
+document.getElementById('nombre-el').textContent = CONTENIDO.nombreEl;
+document.getElementById('nombre-ella').textContent = CONTENIDO.nombreElla;
+document.getElementById('anios-texto').textContent = `${CONTENIDO.numeroAniversario}º aniversario`;
+document.getElementById('fecha-texto').textContent = CONTENIDO.fecha;
+document.getElementById('firma-texto').textContent = CONTENIDO.firma;
+document.getElementById('gracias-texto').textContent = CONTENIDO.mensajeCierre;
+document.getElementById('con-amor-texto').textContent = `Con todo mi amor, ${CONTENIDO.nombreEl}`;
+document.getElementById('footer-texto').textContent = CONTENIDO.footer;
+
+const mensajeCont = document.getElementById('mensaje-contenedor');
+CONTENIDO.mensaje.split(/\n\s*\n/).forEach(parrafo => {
+  const p = document.createElement('p');
+  p.textContent = parrafo.trim();
+  mensajeCont.appendChild(p);
+});
+
+const galeria = document.getElementById('galeria-contenedor');
+CONTENIDO.fotos.forEach(foto => {
+  const fig = document.createElement('figure');
+  fig.className = 'marco';
+  fig.tabIndex = 0;
+  fig.setAttribute('role', 'button');
+  fig.setAttribute('aria-label', `Ver mensaje del año ${foto.anio}`);
+
+  const etiqueta = document.createElement('span');
+  etiqueta.className = 'anio-etiqueta';
+  etiqueta.textContent = foto.anio;
+
+  const img = document.createElement('img');
+  img.src = foto.archivo;
+  img.alt = `Recuerdo del año ${foto.anio}`;
+  img.onerror = function(){ fig.classList.add('foto-vacia'); };
+
+  const placeholder = document.createElement('div');
+  placeholder.className = 'foto-placeholder';
+  placeholder.innerHTML = `♥<br>Agrega<br>${foto.archivo}`;
+
+  const pista = document.createElement('p');
+  pista.className = 'toca-pista';
+  pista.textContent = 'Toca para leer';
+
+  fig.appendChild(etiqueta);
+  fig.appendChild(img);
+  fig.appendChild(placeholder);
+  fig.appendChild(pista);
+
+  const abrir = () => abrirModal(foto);
+  fig.addEventListener('click', abrir);
+  fig.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); abrir(); }
+  });
+
+  galeria.appendChild(fig);
+});
+
+/* ---------- modal de mensaje por foto ---------- */
+const modalOverlay = document.getElementById('modal-overlay');
+const modalCaja = modalOverlay.querySelector('.modal-caja');
+const modalAnio = document.getElementById('modal-anio');
+const modalImagen = document.getElementById('modal-imagen');
+const modalMensaje = document.getElementById('modal-mensaje');
+const modalCerrarBtn = document.getElementById('modal-cerrar');
+let elementoAntesDelModal = null;
+
+function abrirModal(foto){
+  elementoAntesDelModal = document.activeElement;
+  modalAnio.textContent = `Año ${foto.anio}`;
+  modalMensaje.textContent = foto.mensaje;
+  modalImagen.classList.remove('oculta');
+  modalImagen.src = foto.archivo;
+  modalImagen.alt = `Recuerdo del año ${foto.anio}`;
+  modalImagen.onerror = function(){ modalImagen.classList.add('oculta'); };
+
+  modalOverlay.classList.add('abierto');
+  document.body.style.overflow = 'hidden';
+  modalCerrarBtn.focus();
+}
+
+function cerrarModal(){
+  modalOverlay.classList.remove('abierto');
+  document.body.style.overflow = '';
+  if(elementoAntesDelModal) elementoAntesDelModal.focus();
+}
+
+modalCerrarBtn.addEventListener('click', cerrarModal);
+modalOverlay.addEventListener('click', (e) => {
+  if(e.target === modalOverlay) cerrarModal();
+});
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'Escape' && modalOverlay.classList.contains('abierto')) cerrarModal();
+});
+
+/* pétalos cayendo */
+const contPetalos = document.getElementById('petalos');
+const prefiereMenosMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(!prefiereMenosMovimiento){
+  const total = 18;
+  for(let i=0;i<total;i++){
+    const p = document.createElement('div');
+    p.className = 'petalo';
+    const izquierda = Math.random()*100;
+    const duracion = 9 + Math.random()*8;
+    const retraso = Math.random()*14;
+    const deriva = (Math.random()*80-40) + 'px';
+    p.style.left = izquierda + 'vw';
+    p.style.animationDuration = duracion + 's';
+    p.style.animationDelay = retraso + 's';
+    p.style.setProperty('--drift', deriva);
+    p.style.opacity = (0.3 + Math.random()*0.4).toFixed(2);
+    contPetalos.appendChild(p);
+  }
+}
+
+/* revelar secciones al hacer scroll */
+const observador = new IntersectionObserver((entradas)=>{
+  entradas.forEach(entrada=>{
+    if(entrada.isIntersecting){
+      entrada.target.classList.add('visible');
+      observador.unobserve(entrada.target);
+    }
+  });
+}, { threshold:.15 });
+document.querySelectorAll('.revelar').forEach(el => observador.observe(el));
+</script>
+</body>
+</html>
